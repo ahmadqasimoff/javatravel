@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+      <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .bg-light {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        p strong {
+            font-size: 26px;
+            color: #0d6efd;
+        }
+
+        .form-floating{
+            width: 500px;
+            margin: auto;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 14px;
+            font-size: 14px;
+            border: 1px solid #cfd6dd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+        }
+
+        label {
+            font-size: 13px;
+            color: #555;
+        }
+
+        /* .first-name, .last-name {
+            width: 100%;
+        } */
+
+        button {
+            width: 100%;
+            padding: 20px;
+            background: #0d6efd;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #095ad0;
+        }
+
+        .rounded-3 {
+            border-radius: 10px;
+        }
+
+        .inner-card {
+            padding: 70px;
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            p strong {
+                font-size: 22px;
+            }
+        }
+        para1 {
+            margin-top: 10px;
+            width:70%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class=""
+                style="display: flex; align-items: center; height: 100vh; justify-content: center;">
+                <div class="bg-light mt-3 mb-4 w-100 p-4 rounded-3">
+                    <div class="card-body p-2 inner-card">
+
+                        <div class="text-center">
+                            <h1><strong>Registration</strong></h1>
+                        </div>
+
+                        <!-- Signup submission form-->
+                        <form name="form" method="post"
+                            onsubmit="submission()" class="flex flex-col gap-3">
+
+                            <div class="flex flex-col gap-3">
+                                <div class=" mb-1 w-[500px]">
+                                    <div class="form-floating">
+                                        <input required type="first_name" class="form-control rounded-md" id="first_name"
+                                            name="first_name" placeholder="First Name" width="70px">
+                                    </div>
+                                </div>
+
+                                <div class="col-6 mb-1">
+                                    <div class="form-floating">
+                                        <input required type="last_name" class="form-control rounded-3" id="last_name"
+                                            name="last_name" placeholder="Last Name">
+                                    </div>
+                                </div>
+
+                                <div class="">
+                                    <div class="form-floating">
+                                        <input required type="email" class="form-control rounded-3" id="email"
+                                            name="email" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="para1 mb-1">
+                                    <div class="form-floating">
+                                        <input required type="password" class="form-control rounded-3" id="password"
+                                            name="password" placeholder="Password">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+    <button type="button" onclick="goToPage()">Signup Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+function goToPage() {
+    window.location.href = "/home/1-page.html";
+}
+</script>
+
+    </body>
+
+</html>

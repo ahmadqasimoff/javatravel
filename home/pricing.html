@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaTravel Pricing</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: white;
+      color: #111827;
+      padding-top: 4rem;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+
+    /* Logo Section */
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-section img {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .logo-section .brand-name {
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: #1f2937;
+    }
+
+    .logo-section .tagline {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    /* Menu */
+    .nav-menu {
+      display: none;
+      gap: 1.5rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+    }
+
+    .dropdown-btn:hover {
+      color: #2563eb;
+    }
+
+    .dropdown-btn svg {
+      width: 1rem;
+      height: 1rem;
+      margin-left: 0.25rem;
+      transition: transform 0.3s;
+    }
+
+    .dropdown.active .dropdown-btn svg {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      background: white;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 0.375rem;
+      width: 10rem;
+      display: none;
+      z-index: 10;
+    }
+
+    .dropdown-menu.active {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #374151;
+      text-decoration: none;
+    }
+
+    .dropdown-menu a:hover {
+      background: #f3f4f6;
+    }
+
+    /* Simple Buttons */
+    .simple-btn {
+      background: white;
+      color: black;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .simple-btn:hover {
+      background: #dbeafe;
+    }
+
+    /* Right Section */
+    .nav-right {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-right a {
+      text-decoration: none;
+      color: #374151;
+    }
+
+    .nav-right a:hover {
+      color: #2563eb;
+    }
+
+    .login-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .login-btn:hover {
+      background: #f9fafb;
+    }
+
+    .login-btn svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .get-started-btn {
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+    }
+
+    .get-started-btn:hover {
+      background: #1d4ed8;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: block;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #374151;
+    }
+
+    .mobile-menu-btn svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #374151;
+      text-decoration: none;
+    }
+
+    .mobile-menu a:hover {
+      background: #f9fafb;
+    }
+
+    /* Pricing Section */
+    #pricing {
+      padding: 5rem 0;
+      background: #f9fafb;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 3rem;
+      color: #1f2937;
+    }
+
+    .pricing-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .pricing-card:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
+    }
+
+    .pricing-card.featured {
+      border: 2px solid #2563eb;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+    }
+
+    .plan-header {
+      text-align: center;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 2rem;
+    }
+
+    .plan-name {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-name.featured {
+      color: #2563eb;
+    }
+
+    .plan-desc {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .plan-price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-payment {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .plan-btn {
+      width: 100%;
+      background: white;
+      color: #2563eb;
+      padding: 0.875rem 1.5rem;
+      border: 2px solid #2563eb;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .plan-btn:hover {
+      background: #2563eb;
+      color: white;
+    }
+
+    .plan-btn.featured {
+      background: #2563eb;
+      color: white;
+    }
+
+    .plan-btn.featured:hover {
+      background: #1d4ed8;
+    }
+
+    .plan-features {
+      list-style: none;
+    }
+
+    .plan-features li {
+      padding: 0.75rem 0;
+      color: #374151;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .plan-features li::before {
+      content: "✓";
+      color: #10b981;
+      font-weight: bold;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .plan-features li.disabled {
+      color: #9ca3af;
+    }
+
+    .plan-features li.disabled::before {
+      content: "○";
+      color: #d1d5db;
+    }
+
+    /* Footer */
+    footer {
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 2.5rem 0;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .footer-brand h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1d4ed8;
+    }
+
+    .footer-brand p {
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #6b7280;
+    }
+
+    .footer-links a:hover {
+      color: #1d4ed8;
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    /* Desktop View */
+    @media (min-width: 768px) {
+      .nav-menu {
+        display: flex;
+      }
+      
+      .nav-right {
+        display: flex;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      .pricing-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .footer-brand {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ NAVBAR -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-content">
+        
+        <!-- LEFT: LOGO -->
+        <div class="logo-section">
+          <a href="">
+            <img src="https://i.ibb.co/qmKc4Ys/javatravel-logo.png" alt="JavaTravel Logo">
+          </a>
+          <span class="brand-name">JavaTravel</span>
+          <span class="tagline">Travel Tech Partner</span>
+        </div>
+
+        <!-- CENTER: MENU -->
+        <div class="nav-menu">
+          
+          <!-- Product -->
+          <div class="dropdown">
+            <button class="dropdown-btn">
+              Product 
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="http://127.0.0.1:5500/home/Dos.html">Doc</a>
+              <a href="http://127.0.0.1:5500/home/themes.html">Themes</a>
+              <a href="http://127.0.0.1:5500/home/integration.html">Integration</a>
+              <a href="http://127.0.0.1:5500/home/customization.html">Customization</a>
+              <a href="http://127.0.0.1:5500/home/technology.html">Technology</a>
+              <a href="http://127.0.0.1:5500/home/requvairment.html">Requirements</a>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="dropdown">
+            <button class="dropdown-btn">
+              Features 
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="http://127.0.0.1:5500/home/hotel.html">Hotels module</a>
+              <a href="http://127.0.0.1:5500/home/flight.html">Flights module</a>
+              <a href="http://127.0.0.1:5500/home/cars.html">Cars module</a>
+              <a href="http://127.0.0.1:5500/home/tour.html">Tours module</a>
+              <a href="http://127.0.0.1:5500/home/offers.html">Offers module</a>
+              <a href="http://127.0.0.1:5500/home/blogmodule.html">Blog module</a>
+              <a href="http://127.0.0.1:5500/home/newslittle.html">Newsletter module</a>
+              <a href="http://127.0.0.1:5500/home/cms.html">CMS module</a>
+            </div>
+          </div>
+
+          <!-- Company -->
+          <div class="dropdown">
+            <button class="dropdown-btn">
+              Company 
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="http://127.0.0.1:5500/home/Aboutus.html">About Us</a>
+              <a href="http://127.0.0.1:5500/home/careers/job.html">Careers/Jobs</a>
+              <a href="http://127.0.0.1:5500/home/contact.html">Contact</a>
+              <a href="http://127.0.0.1:5500/home/casestudios.html">Case Studies</a>
+              <a href="http://127.0.0.1:5500/home/the-team.html">The Team</a>
+              <a href="http://127.0.0.1:5500/home/patners.html">Partners</a>
+              <a href="http://127.0.0.1:5500/home/media-kit.html">Media Kit</a>
+            </div>
+          </div>
+
+          <button onclick="window.location.href='blog.html'" class="simple-btn">Blog</button>
+          <button onclick="window.location.href='Demo.html'" class="simple-btn">Demo</button>
+          <button onclick="window.location.href='Pricing.html'" class="simple-btn">Pricing</button>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="nav-right">
+          <a href="http://127.0.0.1:5500/home/careers/talktosales.html">Talk to Sales</a>
+          <a href="http://127.0.0.1:5500/home/login.html" class="login-btn">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M15 12l4-4m0 0l-4-4m4 4H3"></path>
+            </svg>
+            <span>Login</span>
+          </a>
+          <a href="http://127.0.0.1:5500/home/signup.html" class="get-started-btn">Get Started</a>
+        </div>
+
+        <!-- MOBILE -->
+        <div>
+          <button id="mobile-menu-button" class="mobile-menu-btn">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="#">Product</a>
+      <a href="#">Features</a>
+      <a href="#">Company</a>
+    </div>
+  </nav>
+
+  <!-- ✅ PRICING SECTION -->
+  <section id="pricing">
+    <div class="container">
+      <h2 class="section-title">Choose Your Plan</h2>
+      <div class="pricing-grid">
+
+        <!-- Startup Plan -->
+        <div class="pricing-card">
+          <div class="plan-header">
+            <h3 class="plan-name">Startup</h3>
+            <p class="plan-desc">Perfect for startups and new ventures</p>
+            <div class="plan-price">$499</div>
+            <p class="plan-payment">One-time Payment</p>
+          </div>
+          <button class="plan-btn">
+            Get Started →
+          </button>
+          <ul class="plan-features">
+            <li>15+ API Integrations Included</li>
+            <li>Single Domain License</li>
+            <li>Basic Support</li>
+            <li>Web Application</li>
+            <li>Free First Installation</li>
+            <li>100% Open-Source Code</li>
+            <li>Multi-Language Support</li>
+            <li class="disabled">Multi-Currency Support</li>
+            <li class="disabled">B2B Business Portal</li>
+            <li class="disabled">User Balance Wallet</li>
+            <li class="disabled">RESTful API & Documentation</li>
+            <li class="disabled">Lifetime Free Updates</li>
+            <li class="disabled">Multi-Theme Feature</li>
+            <li class="disabled">Full Customization Rights</li>
+            <li class="disabled">Remove "Powered by" Link</li>
+          </ul>
+        </div>
+
+        <!-- Agency Plan (Featured) -->
+        <div class="pricing-card featured">
+          <div class="plan-header">
+            <h3 class="plan-name featured">Best fro startups
+            <p class="plan-desc">Perfect for running travel agencies</p>
+            <div class="plan-price">$999</div>
+            <p class="plan-payment">One-time Payment</p>
+          </div>
+          <button class="plan-btn featured">
+            Get Started →
+          </button>
+          <ul class="plan-features">
+            <li>15+ API Integrations Included</li>
+            <li>Single Domain License</li>
+            <li>Enhanced Support</li>
+            <li>Web Application</li>
+            <li>Free First Installation</li>
+            <li>100% Open-Source Code</li>
+            <li>Multi-Language Support</li>
+            <li>Multi-Currency Support</li>
+            <li>B2B Business Portal</li>
+            <li class="disabled">User Balance Wallet</li>
+            <li class="disabled">RESTful API & Documentation</li>
+            <li class="disabled">Lifetime Free Updates</li>
+            <li class="disabled">Multi-Theme Feature</li>
+            <li class="disabled">Full Customization Rights</li>
+            <li class="disabled">Remove "Powered by" Link</li>
+          </ul>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="pricing-card">
+          <div class="plan-header">
+            <h3 class="plan-name">most popular</h3>
+            <p class="plan-desc">Perfect for high-performing organizations</p>
+            <div class="plan-price">$2,499</div>
+            <p class="plan-payment">One-time Payment</p>
+          </div>
+          <button class="plan-btn">
+            Get Started →
+          </button>
+          <ul class="plan-features">
+            <li>15+ API Integrations Included</li>
+            <li>Unlimited Domain License</li>
+            <li>Premium 24/7 Support</li>
+            <li>Web Application</li>
+            <li>Free First Installation</li>
+            <li>100% Open-Source Code</li>
+            <li>Multi-Language Support</li>
+            <li>Multi-Currency Support</li>
+            <li>B2B Business Portal</li>
+            <li>User Balance Wallet</li>
+            <li>RESTful API & Documentation</li>
+            <li>Lifetime Free Updates</li>
+            <li>Multi-Theme Feature</li>
+            <li>Full Customization Rights</li>
+            <li>Remove "Powered by" Link</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>JavaTravel</h3>
+          <p>Your trusted partner for smart travel solutions.</p>
+        </div>
+      
+      </div>
+      <div class="footer-bottom">
+        © 2025 JavaTravel. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script> 
+    // Mobile menu toggle
+    document.getElementById("mobile-menu-button").addEventListener("click", function() {
+      document.getElementById("mobile-menu").classList.toggle("active");
+    });
+
+    // Dropdown functionality
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+      const btn = dropdown.querySelector('.dropdown-btn');
+      const menu = dropdown.querySelector('.dropdown-menu');
+      
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        dropdowns.forEach(other => {
+          if (other !== dropdown) {
+            other.classList.remove('active');
+            other.querySelector('.dropdown-menu').classList.remove('active');
+          }
+        });
+        
+        dropdown.classList.toggle('active');
+        menu.classList.toggle('active');
+      });
+      
+      menu.addEventListener('mouseenter', function() {
+        dropdown.classList.add('active');
+        menu.classList.add('active');
+      });
+      
+      menu.addEventListener('mouseleave', function() {
+        dropdown.classList.remove('active');
+        menu.classList.remove('active');
+      });
+    });
+    
+    document.addEventListener('click', function() {
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('active');
+        dropdown.querySelector('.dropdown-menu').classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

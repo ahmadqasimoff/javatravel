@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaTravel - Payment Gateway Selection</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      padding-top: 4rem;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+    }
+
+    /* Logo Section */
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-section img {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .logo-section .brand-name {
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: #1f2937;
+    }
+
+    .logo-section .tagline {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    /* Menu */
+    .nav-menu {
+      display: none;
+      gap: 1.5rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+    }
+
+    .dropdown-btn:hover {
+      color: #2563eb;
+    }
+
+    .dropdown-btn svg {
+      width: 1rem;
+      height: 1rem;
+      margin-left: 0.25rem;
+      transition: transform 0.3s;
+    }
+
+    .dropdown.active .dropdown-btn svg {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      background: white;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 0.375rem;
+      width: 10rem;
+      display: none;
+      z-index: 10;
+    }
+
+    .dropdown-menu.active {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #374151;
+      text-decoration: none;
+    }
+
+    .dropdown-menu a:hover {
+      background: #f3f4f6;
+    }
+
+    /* Simple Buttons */
+    .simple-btn {
+      background: white;
+      color: black;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .simple-btn:hover {
+      background: #dbeafe;
+    }
+
+    /* Right Section */
+    .nav-right {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-right a {
+      text-decoration: none;
+      color: #374151;
+    }
+
+    .nav-right a:hover {
+      color: #2563eb;
+    }
+
+    .login-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .login-btn:hover {
+      background: #f9fafb;
+    }
+
+    .login-btn svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .get-started-btn {
+      background: #2563eb;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+    }
+
+    .get-started-btn:hover {
+      background: #1d4ed8;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: block;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #374151;
+    }
+
+    .mobile-menu-btn svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: #374151;
+      text-decoration: none;
+    }
+
+    .mobile-menu a:hover {
+      background: #f9fafb;
+    }
+
+    /* Payment Gateway Section */
+    .payment-section {
+      padding: 4rem 0;
+      min-height: calc(100vh - 4rem);
+    }
+
+    .payment-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .payment-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .payment-subtitle {
+      font-size: 1.125rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Gateway Grid */
+    .gateway-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .gateway-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .gateway-card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .gateway-card.selected {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .gateway-info {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .gateway-logo {
+      width: 80px;
+      height: 50px;
+      object-fit: contain;
+      background: white;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .gateway-details h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+
+    .gateway-details p {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .gateway-select {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .select-arrow {
+      font-size: 1.5rem;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    /* Desktop View */
+    @media (min-width: 768px) {
+      .nav-menu {
+        display: flex;
+      }
+      
+      .nav-right {
+        display: flex;
+      }
+      
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      .gateway-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .gateway-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ NAVBAR -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-content">
+        
+        <!-- LEFT: LOGO -->
+        <div class="logo-section">
+          <a href="">
+            <img src="https://i.ibb.co/qmKc4Ys/javatravel-logo.png" alt="JavaTravel Logo">
+          </a>
+          <span class="brand-name">JavaTravel</span>
+          <span class="tagline">Travel Tech Partner</span>
+        </div>
+
+        <!-- CENTER: MENU -->
+        <div class="nav-menu">
+          
+          <!-- Product -->
+          <div class="dropdown">
+            <button class="dropdown-btn">
+              Product 
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="http://127.0.0.1:5500/home/Dos.html">Doc</a>
+              <a href="http://127.0.0.1:5500/home/themes.html">Themes</a>
+              <a href="http://127.0.0.1:5500/home/integration.html">Integration</a>
+              <a href="http://127.0.0.1:5500/home/customization.html">Customization</a>
+              <a href="http://127.0.0.1:5500/home/technology.html">Technology</a>
+              <a href="http://127.0.0.1:5500/home/requvairment.html">Requirements</a>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="dropdown">
+            <button class="dropdown-btn">
+              Features 
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="http://127.0.0.1:5500/home/hotel.html">Hotels module</a>
+              <a href="http://127.0.0.1:5500/home/flight.html">Flights module</a>
+              <a href="http://127.0.0.1:5500/home/cars.html">Cars module</a>
+              <a href="http://127.0.0.1:5500/home/tour.html">Tours module</a>
+              <a href="http://127.0.0.1:5500/home/offers.html">Offers module</a>
+              <a href="http://127.0.0.1:5500/home/blogmodule.html">Blog module</a>
+              <a href="http://127.0.0.1:5500/home/newslittle.html">Newsletter module</a>
+              <a href="http://127.0.0.1:5500/home/cms.html">CMS module</a>
+            </div>
+          </div>
+
+          <!-- Company -->
+          <div class="dropdown">
+            <button class="dropdown-btn">
+              Company 
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="http://127.0.0.1:5500/home/Aboutus.html">About Us</a>
+              <a href="http://127.0.0.1:5500/home/careers/job.html">Careers/Jobs</a>
+              <a href="http://127.0.0.1:5500/home/contact.html">Contact</a>
+              <a href="http://127.0.0.1:5500/home/casestudios.html">Case Studies</a>
+              <a href="http://127.0.0.1:5500/home/the-team.html">The Team</a>
+              <a href="http://127.0.0.1:5500/home/patners.html">Partners</a>
+              <a href="http://127.0.0.1:5500/home/media-kit.html">Media Kit</a>
+            </div>
+          </div>
+
+          <button onclick="window.location.href='blog.html'" class="simple-btn">Blog</button>
+          <button onclick="window.location.href='Demo.html'" class="simple-btn">Demo</button>
+          <button onclick="window.location.href='Pricing.html'" class="simple-btn">Pricing</button>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="nav-right">
+          <a href="http://127.0.0.1:5500/home/careers/talktosales.html">Talk to Sales</a>
+          <a href="http://127.0.0.1:5500/home/login.html" class="login-btn">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M15 12l4-4m0 0l-4-4m4 4H3"></path>
+            </svg>
+            <span>Login</span>
+          </a>
+          <a href="http://127.0.0.1:5500/home/signup.html" class="get-started-btn">Get Started</a>
+        </div>
+
+        <!-- MOBILE -->
+        <div>
+          <button id="mobile-menu-button" class="mobile-menu-btn">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="#">Product</a>
+      <a href="#">Features</a>
+      <a href="#">Company</a>
+    </div>
+  </nav>
+
+  <!-- ✅ PAYMENT GATEWAY SELECTION -->
+  <section class="payment-section">
+    <div class="container">
+      <div class="payment-header">
+        <h1 class="payment-title">Select Payment Gateway</h1>
+        <p class="payment-subtitle">Choose your preferred international payment gateway to complete your purchase</p>
+      </div>
+
+      <div class="gateway-grid">
+        
+        <!-- Stripe -->
+        <a href="stripe-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Stripe</h3>
+              <p>Cards, Wallets, Bank Transfers</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- PayPal -->
+        <a href="paypal-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>PayPal</h3>
+              <p>PayPal Balance, Cards</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Razorpay -->
+        <a href="razorpay-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Razorpay</h3>
+              <p>Cards, UPI, Net Banking</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- PayStack -->
+        <a href="paystack-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Paystack_Logo.png" alt="PayStack" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>PayStack</h3>
+              <p>Cards, Bank Transfer, USSD</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Square -->
+        <a href="square-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Square%2C_Inc._logo.svg" alt="Square" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Square</h3>
+              <p>Credit & Debit Cards</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Braintree -->
+        <a href="braintree-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Braintree_Logo.svg" alt="Braintree" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Braintree</h3>
+              <p>Cards, PayPal, Venmo</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Adyen -->
+        <a href="adyen-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Adyen_Corporate_Logo.svg" alt="Adyen" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Adyen</h3>
+              <p>Global Payment Methods</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Authorize.net -->
+        <a href="authorize-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Authorize.Net_logo.svg" alt="Authorize.net" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Authorize.net</h3>
+              <p>Credit & Debit Cards</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- 2Checkout -->
+        <a href="2checkout-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2Checkout_logo.svg" alt="2Checkout" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>2Checkout</h3>
+              <p>Global Payment Solution</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Mollie -->
+        <a href="mollie-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Mollie_logo.svg" alt="Mollie" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Mollie</h3>
+              <p>European Payment Methods</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Skrill -->
+        <a href="skrill-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Skrill_logo.svg" alt="Skrill" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Skrill</h3>
+              <p>Digital Wallet</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- Worldpay -->
+        <a href="worldpay-checkout.html" class="gateway-card">
+          <div class="gateway-info">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Worldpay_logo.svg" alt="Worldpay" class="gateway-logo">
+            <div class="gateway-details">
+              <h3>Worldpay</h3>
+              <p>Global Payment Processing</p>
+            </div>
+          </div>
+          <div class="gateway-select">
+            <span class="select-arrow">→</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- JS -->
+  <script> 
+    // Mobile menu toggle
+    document.getElementById("mobile-menu-button").addEventListener("click", function() {
+      document.getElementById("mobile-menu").classList.toggle("active");
+    });
+
+    // Dropdown functionality
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+      const btn = dropdown.querySelector('.dropdown-btn');
+      const menu = dropdown.querySelector('.dropdown-menu');
+      
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        dropdowns.forEach(other => {
+          if (other !== dropdown) {
+            other.classList.remove('active');
+            other.querySelector('.dropdown-menu').classList.remove('active');
+          }
+        });
+        
+        dropdown.classList.toggle('active');
+        menu.classList.toggle('active');
+      });
+      
+      menu.addEventListener('mouseenter', function() {
+        dropdown.classList.add('active');
+        menu.classList.add('active');
+      });
+      
+      menu.addEventListener('mouseleave', function() {
+        dropdown.classList.remove('active');
+        menu.classList.remove('active');
+      });
+    });
+    
+    document.addEventListener('click', function() {
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('active');
+        dropdown.querySelector('.dropdown-menu').classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>         
